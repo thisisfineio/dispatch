@@ -1,9 +1,6 @@
 package dispatchlib
 
 import (
-	"os"
-	"fmt"
-	"github.com/thisisfineio/variant"
 	"flag"
 )
 
