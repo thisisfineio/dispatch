@@ -19,7 +19,7 @@ func main (){
 
 	// version string overrides version file
 	if dispatchlib.VersionString != "" {
-
+		fmt.Println(paths)
 	} else {
 		// if there's no version file we're not deploying
 		if dispatchlib.VersionFile == "" {
