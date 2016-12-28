@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/thisisfineio/gox/goxlib"
 	"fmt"
 	"os"
 	"flag"
 	"github.com/thisisfineio/dispatch/dispatchlib"
+	"github.com/thisisfineio/gox/goxlib"
 	"github.com/thisisfineio/variant"
 )
 
@@ -17,6 +17,14 @@ func main (){
 	}
 	flag.Parse()
 
+	versions, _ := variant.Load(dispatchlib.VersionFile)
+	fmt.Println(versions)
+
+
+	if dispatchlib.GithubKey == "" {
+		os.Exit(0)
+	}
+
 	// version string overrides version file
 	if dispatchlib.VersionString != "" {
 		fmt.Println(paths)
@@ -26,13 +34,7 @@ func main (){
 			os.Exit(0)
 		}
 
-		versions, err := variant.Load(dispatchlib.VersionFile)
-		if err != nil {
-			fmt.Fprintln(os.Stderr, err)
-			os.Exit(1)
-		}
-		fmt.Println(versions)
-	}
 
+	}
 
 }
