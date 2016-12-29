@@ -12,7 +12,7 @@ var (
 	BumpMinor     bool
 	VersionString string
 	GithubKey     string
-	DeployType string
+	DeployTypes string
 )
 
 // supported deploy types
@@ -25,11 +25,15 @@ func init(){
 	flag.BoolVar(&BumpMajor, "major", false, "Bumps the major version of this release")
 	flag.BoolVar(&BumpMinor, "minor", false, "Bumps the minor version of this release")
 	flag.StringVar(&VersionString, "version", "", "Specifies an entire version string to use instead of a config file. By default will save the version config as variant.json in the working directory")
-	flag.StringVar(&DeployType, "d", Github, "Specifies what services to deploy to. Default is github.")
-
+	flag.StringVar(&DeployTypes, "d", Github, "A comma separated list of services to deploy to")
+	flag.StringVar(&DeployTypes, "deployTypes", Github, "A comma separated list of services to deploy to")
 	GithubKey = os.Getenv("GITHUB_API_KEY")
 }
 
 type Deployer interface {
 	Deploy() error
+}
+
+type Config struct {
+	Deployers []Deployer
 }

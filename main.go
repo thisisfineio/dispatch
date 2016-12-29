@@ -17,6 +17,7 @@ func main (){
 	}
 	flag.Parse()
 
+	// use a config file by default, need to architect this better
 	versions, _ := variant.Load(dispatchlib.VersionFile)
 	fmt.Println(versions)
 
