@@ -1,2 +1,2 @@
 # dispatch
-Tool for cross compiling and uploading releases to github
+Tool for cross compiling Go code and uploading releases to github.
