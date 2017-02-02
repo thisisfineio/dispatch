@@ -10,17 +10,23 @@ import (
 )
 
 func main (){
+	flag.Usage = func(){
+		goxlib.PrintUsage()
+		fmt.Println()
+		fmt.Println("dispatch specific flags:")
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
+	flag.Parse()
 	paths, err := goxlib.CrossCompile()
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)
 	}
-	flag.Parse()
 
 	// use a config file by default, need to architect this better
 	versions, _ := variant.Load(dispatchlib.VersionFile)
 	fmt.Println(versions)
-
 
 	if dispatchlib.GithubKey == "" {
 		os.Exit(0)
