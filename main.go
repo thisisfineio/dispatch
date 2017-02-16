@@ -42,8 +42,6 @@ func main (){
 		if dispatchlib.VersionFile == "" {
 			os.Exit(0)
 		}
-
-
 	}
 
 }
