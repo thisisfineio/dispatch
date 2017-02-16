@@ -1,16 +1,16 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
-	"flag"
+
 	"github.com/thisisfineio/dispatch/dispatchlib"
 	"github.com/thisisfineio/gox/goxlib"
-	"github.com/thisisfineio/variant"
 )
 
-func main (){
-	flag.Usage = func(){
+func main() {
+	flag.Usage = func() {
 		goxlib.PrintUsage()
 		fmt.Println()
 		fmt.Println("dispatch specific flags:")
@@ -24,24 +24,22 @@ func main (){
 		os.Exit(1)
 	}
 
-
-
-	// use a config file by default, need to architect this better
-	versions, _ := variant.Load(dispatchlib.VersionFile)
-	fmt.Println(versions)
-
-	if dispatchlib.GithubKey == "" {
-		os.Exit(0)
+	config, err := dispatchlib.GetConfig()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
 	}
 
-	// version string overrides version file
-	if dispatchlib.VersionString != "" {
-		fmt.Println(paths)
-	} else {
-		// if there's no version file we're not deploying
-		if dispatchlib.VersionFile == "" {
-			os.Exit(0)
-		}
-	}
+	fmt.Println(config)
 
+	release := dispatchlib.NewGithubRelease(paths, config)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+	err = release.Deploy()
+	if err != nil {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
 }
